@@ -350,7 +350,7 @@ class Downloader:
                           save_file, indent=4)
 
             logger.info("Saved results to %s", self.settings["save_file"])
-            save_file.close()
+
         return results
 
     async def pool_download(self, song: Song) -> Tuple[Song, Optional[Path]]:
@@ -474,7 +474,7 @@ class Downloader:
             logger.info("Skipping explicit song: %s", song.display_name)
             return song, None
 
-        # Initialize the progress tracker
+        # Initalize the progress tracker
         display_progress_tracker = self.progress_handler.get_new_tracker(song)
 
         try:
