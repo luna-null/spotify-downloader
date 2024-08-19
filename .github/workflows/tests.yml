@@ -73,6 +73,36 @@ jobs:
 
       - name: Run tests
         run: |
-          poetry run pytest -vvv --record-mode=none --disable-recording --ignore tests/providers/lyrics --ignore tests/utils/test_github.py --ignore tests/utils/test_ffmpeg.py --ignore tests/utils/test_metadata.py
+          poetry run pytest -vvv --record-mode=none --disable-recording --ignore tests/providers/lyrics --ignore tests/utils/test_github.py --ignore tests/utils/test_ffmpeg.py --ignore tests/utils/test_metadata.py --ignore tests/test_matching.py
         env:
           PLATFORM: ${{ matrix.platform }}
+
+  matching:
+    if: "!contains(github.event.commits[0].message, '[skip ci]')"
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install poetry
+        run: pipx install poetry
+
+      - name: Set up Python "3.11"
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+          cache: 'poetry'
+
+      - name: Install dependencies
+        run: |
+          poetry env use "3.11"
+          poetry install
+
+      - uses: FedericoCarboni/setup-ffmpeg@v1
+        id: setup-ffmpeg
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run tests
+        run: |
+          poetry run pytest -vvv --record-mode=none --disable-recording tests/test_matching.py
