@@ -88,8 +88,10 @@ def sync(
 
     # If the query is a single file, download it
     if (
-        len(query) == 1 and query[0].endswith(".spotdl") and not save_path
-    ):  # pylint: disable=R1702
+        len(query) == 1
+        and query[0].endswith(".spotdl")
+        and not save_path  # pylint: disable=R1702
+    ):
         # Load the sync file
         with open(query[0], "r", encoding="utf-8") as sync_file:
             sync_data = json.load(sync_file)
