@@ -87,9 +87,9 @@ def sync(
         return None
 
     # If the query is a single file, download it
-    if (
-        len(query) == 1
-        and query[0].endswith(".spotdl")
+    if (  # pylint: disable=R1702
+        len(query) == 1  # pylint: disable=R1702
+        and query[0].endswith(".spotdl")  # pylint: disable=R1702
         and not save_path  # pylint: disable=R1702
     ):
         # Load the sync file
